@@ -1,0 +1,33 @@
+services:
+  software_pro:
+    container_name: software_pro
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8000
+    depends_on:
+      - db_software_pro
+    networks:
+      - network_software_pro
+    env_file: .env
+    environment:
+      - DJANGO_SETTINGS_MODULE=software_pro.settings
+    volumes:
+      - .:/app
+
+  db_software_pro:
+    image: postgres:16
+    container_name: db_software_pro
+    env_file: .env
+    ports:
+      - 5433:5432
+    networks:
+      - network_software_pro
+    restart: always
+
+networks:
+  network_software_pro:
+    driver: bridge
+
+
